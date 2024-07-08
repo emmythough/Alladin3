@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 const Signup = () => {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('trader'); // Default role
@@ -11,7 +13,7 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/signup', { email, password, role });
+      const response = await axios.post('http://localhost:5000/api/auth/signup', { firstName, lastName, email, password, role });
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('role', response.data.role); // Store role in localStorage
       window.location.href = '/';
@@ -24,6 +26,20 @@ const Signup = () => {
     <form onSubmit={handleSubmit}>
       <h1>Signup</h1>
       {error && <p style={{ color: 'red' }}>{error}</p>}
+      <input
+        type="text"
+        value={firstName}
+        onChange={(e) => setFirstName(e.target.value)}
+        placeholder="First Name"
+        required
+      />
+      <input
+        type="text"
+        value={lastName}
+        onChange={(e) => setLastName(e.target.value)}
+        placeholder="Last Name"
+        required
+      />
       <input
         type="email"
         value={email}
